@@ -29,12 +29,13 @@ public class exDAO {
 	}//생성자
 	
 	public List<exVO> getList(){
-	String sql="select * from boards";
-		List<exVO> list = new ArrayList<exVO>();
+	String sql="select * from boards order by 1";
+		List<exVO> list = new ArrayList<>();
+
 		try {
 			PreparedStatement ppst =conn.prepareStatement(sql);
 			ResultSet rs= ppst.executeQuery();
-			System.out.println(rs+"건이 입력됨.");
+			System.out.println("불러오기 성공.");
 			while(rs.next()) {
 				exVO vo = new exVO();
 				vo.setNum(rs.getInt("board_no"));
@@ -42,6 +43,7 @@ public class exDAO {
 				vo.setContent(rs.getString("content"));
 				vo.setWriter(rs.getNString("writer"));
 				vo.setCreationDate(rs.getString("creation_date"));
+				
 				list.add(vo);
 			}
 		} catch (SQLException e) {

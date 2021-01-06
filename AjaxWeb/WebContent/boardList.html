@@ -3,21 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>boardList.html</title>
+<script src='html/showPage.js'></script>
 </head>
 <body>
 	<div id='show'></div>
-	<button id='button'>button</button>
 	<script>
-	let xhtp= new XMLHttpRequest();
-	document.getElementById('button').onclick = function() {
-	xhtp.open('get','Home');
-	xhtp.send();
-	xhtp.onload =function(){
-	console.log(xhtp.responseText);
-		}
-	};
-		
-	console.log(xhtp.responseXML);
+		let xhttp = new XMLHttpRequest();
+		xhttp.open('get', 'boarder');
+		xhttp.send();
+		xhttp.onload = showPage;
 	</script>
 </body>
 </html>

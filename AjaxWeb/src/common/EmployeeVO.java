@@ -60,4 +60,8 @@ public class EmployeeVO {
 	}
 	//get set
 	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }
