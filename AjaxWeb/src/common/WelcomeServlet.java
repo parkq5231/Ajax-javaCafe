@@ -1,20 +1,22 @@
 package common;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/addEmp")
-public class PutEmpServlet extends HttpServlet {
+@WebServlet("/WelcomeServlet")
+public class WelcomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public PutEmpServlet() {
+	public WelcomeServlet() {
 		super();
 	}
-
+	// append를 해서 내용을 document에 추가하는거
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String fName = request.getParameter("fName");
@@ -31,19 +33,18 @@ public class PutEmpServlet extends HttpServlet {
 		vo.setHireDate(hireDate);
 
 		EmpDAO dao = new EmpDAO();
-		EmployeeVO v = dao.insertEmp(vo);
+		EmployeeVO vo1 = dao.updateEmp(vo);
 		String result = "<result>";
-		result += "<empId>" + v.getEmployeeId() + "</empId>";
-		result += "<fName>" + v.getFirstName() + "</fName>";
-		result += "<lName>" + v.getLastName() + "</lName>";
-		result += "<email>" + v.getEmail() + "</email>";
-		result += "<hDate>" + v.getHireDate() + "</hDate>";
-		result += "<jobId>" + v.getJobId() + "</jobId>";
-		result += "<salary>" + v.getSalary() + "</salary>";
+		result += "<empId>" + vo1.getEmployeeId() + "</empId>";
+		result += "<fName>" + vo1.getFirstName() + "</fName>";
+		result += "<lName>" + vo1.getLastName() + "</lName>";
+		result += "<email>" + vo1.getEmail() + "</email>";
+		result += "<hDate>" + vo1.getHireDate() + "</hDate>";
+		result += "<jobId>" + vo1.getJobId() + "</jobId>";
+		result += "<salary>" + vo1.getSalary() + "</salary>";
 		result += "</result>";
 		response.getWriter().append(result);
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);

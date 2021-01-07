@@ -18,8 +18,8 @@ public class HomeServlet extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 //		response.setContentType("text/html; charset=utf-8");	
 		
@@ -33,7 +33,9 @@ public class HomeServlet extends HttpServlet {
 				  "<firstName>"+emp.getFirstName()+"</firstName>"+
 				  "<lastName>"+emp.getLastName()+"</lastName>"+
 				  "<email>"+emp.getEmail()+"</email>"+
-				  "<jobId>"+emp.getJobId()+"</jobId>";
+				  "<hireDate>"+emp.getHireDate()+"</hireDate>"+
+				  "<jobId>"+emp.getJobId()+"</jobId>"+
+				  "<salary>"+emp.getSalary()+"</salary>";
 			xml +="</record>";
 		}
 			xml +="</dataset>";

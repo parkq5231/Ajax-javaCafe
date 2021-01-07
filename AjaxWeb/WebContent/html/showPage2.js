@@ -2,7 +2,7 @@
  * showPage2.js
  */
 
-function showPage() {
+function showPage2() {
 	let doc = xhttp.responseXML;
 	console.log(doc);
 
@@ -11,7 +11,7 @@ function showPage() {
 
 	let tableTag = document.createElement('table');
 	tableTag.setAttribute('border', '1');
-	tableTag.setAttribute('id','tbl');
+	tableTag.setAttribute('id', 'tbl');
 
 	//title tr
 	// data tr =>[배열]
@@ -20,33 +20,33 @@ function showPage() {
 
 	tableTag.appendChild(headerTr);
 	for (let i = 0; i < dataTr.length; i++) {
-		tableTag.appendChild(addBtn(dataTr[i],delFunc));//td에 button이 들어갈듯
+		tableTag.appendChild(addBtn(dataTr[i], delFunc));//td에 button이 들어갈듯
 	}
 	document.getElementById('show').appendChild(tableTag);
 }//end of showPage
 
 //delFuc
-function delFunc(){
+function delFunc() {
 	this.parentNode.parentNode.remove();
 	let id = this.parentNode.parentNode.childNodes[0].firstChild.nodeValue;
 	let req = new XMLHttpRequest();
-			req.open('get', '../deleteEmp?empId=' + id);
-			req.send();
-			req.onload = function() {
-				console.log(req.responseText);
-			}
+	req.open('get', '../deleteEmp?empId=' + id);
+	req.send();
+	req.onload = function() {
+		console.log(req.responseText);
+	}
 
 }
-//button
-function addBtn(tr,callBackFunc){
+//addBtn
+function addBtn(tr, callBackFunc) {
 	//버튼 추가 코드, 이벤트 등록
 	let butn = document.createElement('button');
-	butn.onclick=callBackFunc;
-	butn.innerHTML='삭제';
+	butn.onclick = callBackFunc;
+	butn.innerHTML = '삭제';
 	let tdTag = document.createElement('td');//td에 button 붙여야됨
 	tdTag.appendChild(butn);
 	tr.appendChild(tdTag);
-	
+
 	return tr;
 }
 
@@ -68,6 +68,8 @@ function contentRow(result) {
 	let trTags = [];
 	for (let j = 0; j < result.length; j++) {
 		let trTag = document.createElement('tr');
+		let empId = result[j].childNodes[0].firstChild.nodeValue;
+		trTag.setAttribute('id', 'emp_' + empId);
 		for (let i = 0; i < result[0].childNodes.length; i++) {
 			let tdTag = document.createElement('td');
 			let textNode = document.createTextNode(result[j].childNodes[i].firstChild.nodeValue);
@@ -81,7 +83,18 @@ function contentRow(result) {
 		}//onmouseout
 		trTag.onmouseout = function() {
 			trTag.style.background = '';
-		}
+		}//onclick
+		trTag.onclick = function() {
+			let inputs = document.getElementsByTagName('input');
+			let a = 0;
+			for (i = 0; i <= 5; i++) {
+				if (i == 4) {
+					continue;
+				}
+				inputs[a++].value = this.childNodes[i].firstChild.nodeValue;
+			}
+		} //end of onclick
+
 		//append
 		trTags.push(trTag);
 	}// for의 끝(tr)

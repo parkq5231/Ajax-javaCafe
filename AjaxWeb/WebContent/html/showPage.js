@@ -25,8 +25,8 @@ function showPage() {
 }//end of showPage
 
 //title
-function titleRow(result) {//result=매개변수
-	console.log(result[0].childNodes[3].nodeName);
+	function titleRow(result) {//result=매개변수
+		console.log(result[0].childNodes[3].nodeName);
 	let trTag = document.createElement('tr');
 	for (let i = 0; i < result[0].childNodes.length; i++) {
 		let tdTag = document.createElement('th');
