@@ -44,7 +44,7 @@
 			//XML 0~4 실행
 			let saveReq = new XMLHttpRequest();
 			saveReq.open('get', url);
-			saveReq.send();
+			saveReq.send(url);
 			saveReq.onload = function() {
 				console.log(saveReq.responseXML);//값 확인
 				let doc = saveReq.responseXML;
@@ -73,17 +73,24 @@
 			let lName = document.getElementById('lName').value;
 			let email = document.getElementById('email').value;
 			let jobId = document.getElementById('jobId').value;
-			let url = '../WelcomeServlet?fName=' + fName + '&lName=' + lName
-			+ '&email=' + email + '&jobId=' + jobId;
-			let saveReq = new XMLHttpRequest();
-			saveReq.open('get', url);
-			saveReq.send();
-			saveReq.onload = function() {
-				console.log(saveReq.responseXML);//값 확인
-				
-				
+			let empId = document.getElementById('eid').value;
+
+			let url = 'fName=' + fName + '&lName=' + lName + '&email=' + email
+					+ '&jobId=' + jobId + '&empId=' + empId;
+			let updateReq = new XMLHttpRequest();
+			updateReq.open('post', '../updateServlet');
+			updateReq.setRequestHeader("Content-type",
+					"application/x-www-form-urlencoded");
+			updateReq.send(url);
+			updateReq.onload = function() {
+				console.log(updateReq.responseXML);//값 확인
+				let doc = updateReq.responseXML;
+				let result = doc.getElementsByTagName("result");
+				let eid= result[0].childNodes[0].firstChild.nodeValue;
+				let tr = document.getElementById('emp_'+eid);  
+				console.log(tr.childNodes[0].firstChild.nodeValue);
 			}
-		}//end of update	
+		} //end of update	
 		//XML 0~4 실행
 		let xhttp = new XMLHttpRequest();
 		xhttp.open('get', '../Home'); //get방식으로 HomeServlet에 /Home실행
