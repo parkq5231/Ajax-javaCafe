@@ -3,15 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>boardList.html</title>
-<script src='html/showPage.js'></script>
+<script src='showPage3.js'></script>
 </head>
 <body>
+	<table>
+		<tr>
+			<td>번호:</td>
+			<td><input type='text' id='number'></td>
+		</tr>
+		<tr>
+			<td>성:</td>
+			<td><input type='text' id='fName'></td>
+		</tr>
+		<tr>
+			<td>이름:</td>
+			<td><input type='text' id='lName'></td>
+		</tr>
+		<tr>
+			<td>직업:</td>
+			<td><input type='text' id='jobId'></td>
+		</tr>
+		<tr align='center'>
+			<td><button id='btn' onclick='saveData()'>저장하기</button>
+	</table>
 	<div id='show'></div>
 	<script>
-		let xhttp = new XMLHttpRequest();
-		xhttp.open('get', '../boarder');
-		xhttp.send();
-		xhttp.onload = showPage;
+	
+		let xml = new XMLHttpRequest();
+		xml.open('get', '../servlet');
+		xml.send();
 	</script>
 </body>
 </html>
