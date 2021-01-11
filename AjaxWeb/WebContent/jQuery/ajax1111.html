@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '../data/MOCK_DATA.json',
+                    success: showContent,
+                    error: function (result) {
+                        console.log("에러: " + result.statusText);
+                    }
+                });
+                //ajax호출매소드 ajax{}오브젝트의 옵션 url,success,error들
+            });
+            function showContent(result) {
+                console.log(result);
+                //dataType:'json'알아서 json타입으로 바꿔줌
+                let data = result;
+                let table = $('<table id="tbl"/>').attr('border', '1');
+                $(data).each(function (idx, obj) {
+                    let tr = $('<tr/>');
+                    let th = $('<th/>').html(obj.childNodes);
+                    console.log(obj[0])
+                    for (field in obj) { //obj에 들어있는 값들을 반복해서 가져오는 거
+                        let td = $('<td/>');
+                        td.html(obj[field]);
+                        tr.append(td); //td가 만들어질 때 마다 tr에 붙여줌
+                    }
+                    table.append(tr); //만들어진 tr을 한개씩 붙여줌(가로1줄씩)
+
+                })
+                $('#show').append(table);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="show"></div>
+    </body>
+</html>
