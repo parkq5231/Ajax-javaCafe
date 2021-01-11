@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="/js/jquery-3.5.1.min.js"></script>
+        <script>
+            let persons = [];
+            persons.push('hong');
+            persons.push('hong1');
+            persons.push('hong2');
+
+            $(document).ready(function () {
+                let ulTag = $('<ul/>').attr('id', 'main');
+                //선택자로 element 생성,속성부여
+                $.each(persons, function (a, b) {
+                    console.log(a, b);
+                    ulTag.append($('<li/>').html(b));
+                })
+                console.log(ulTag);
+                $('body').append(ulTag);
+            });
+            $(document).ready(function () {
+                let table = $('<table border="1" />').attr('id', 'tbl');
+                $.each(persons, function (a, b) {
+                    let tr = $('<tr/>');
+
+                    $(tr).mouseover(function () {
+                        $(this).css('background-color', 'yellow');
+                    })
+                    $(tr).mouseout(function () {
+                        $(this).css('background-color', '');
+                    })
+
+                    let td = $('<td/>');
+                    td.append(b);
+                    tr.append(td);
+
+                    let btnTag = $('<td/>');
+                    let btn = $('<button/>').html('OK');
+                    $(btn).click(function () {
+                        $(this).parent().parent().remove();
+                    })
+                    btnTag.append(btn);
+                    tr.append(btnTag);
+
+                    table.append(tr);
+                });
+                $('body').append(table);
+            });
+        </script>
+    </head>
+    <body></body>
+</html>
