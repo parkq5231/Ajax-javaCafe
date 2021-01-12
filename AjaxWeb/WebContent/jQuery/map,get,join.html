@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>map demo</title>
+  <style>
+  p {
+    color: red;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body>
+<p><b>Values: </b></p>
+<form>
+  <input type="text" name="name" value="John">
+  <input type="text" name="password" value="password">
+  <input type="text" name="url" value="https://johnresig.com/">
+</form>
+<script>
+    console.log($('input').map(function (){
+        return $(this).val();
+    }).get().join(',, '));
+$( "p" ).append( $( "input" ).map(function() {//해당되는 요소들 중 return값을 반환하겠다
+    return $( this ).val();
+  }).get().join( ", " ) );                    //get으로 배열타입으로 담아옴 //join 으로 각 배열 사이에 추가할 문자열
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id='show'></div>
+	<script>
+		//json object
+		let json = {
+			"name" : "John",
+			"age" : 30,
+			"cars" : [ "Ford", "BMW", "Fiat" ]
+		};
+		//json object array accept tip
+		console.log(json.cars[0]);
+
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', '../empListJson'); // ./으로 경로 설정하면 안되나
+		xhtp.send();
+		xhtp.onload = function() {//요청이 다 끝나면 function 실행
+			let data = xhtp.response;
+			let obj = JSON.parse(data); //data주고받을 때 JSON
+			//console.log(JSON.parse(data)); //js object type으로 바꿔줌
+			let ulTag = document.createElement('ul');
+			for (let i = 0; i < obj.length; i++) {
+				let liTag = document.createElement('li');
+				let tNode = document.createTextNode(obj[i].id + ' ' // 
+						+ obj[i].firstName + ' ' + obj[i].lastName + ' ' //
+						+ obj[i].email + ' ' + obj[i].hireDate); //여기랑 servlet 이름 동일해야됨
+				liTag.append(tNode);
+				ulTag.append(liTag);
+			}//for of obj
+			document.getElementById('show').append(ulTag);
+		}
+	</script>
+</body>
+</html>

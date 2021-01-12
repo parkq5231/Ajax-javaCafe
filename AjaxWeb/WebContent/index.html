@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홈.</title>
+</head>
+<body>
+	<h1>반갑습니다.1234</h1>
+	<div id="show"></div>
+	<script>
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'Home');
+		xhtp.send();
+		xhtp.onload = showContent;
+
+		function showContent() {
+			console.log(xhtp.responseXML);
+			let doc = xhtp.responseXML;
+			let result = doc.getElementsByTagName('record');
+			let table = document.createElement('table');
+			table.setAttribute('border', '1');
+			
+			let tr = document.createElement('tr');
+			for (let i = 0; i < result[0].childNodes.length; i++) {
+				let td = document.createElement('th');
+				let str = result[0].childNodes[i].nodeName.toUpperCase();
+				let text = document.createTextNode(str);
+				td.appendChild(text);
+				tr.appendChild(td);
+			}
+			table.appendChild(tr);
+			
+			for (let i = 0; i < result.length; i++) {
+				let tr = document.createElement('tr');
+				for (j = 0; j < result[i].childNodes.length; j++) {
+					let td = document.createElement('td');
+					let str = result[i].childNodes[j].childNodes[0].nodeValue;
+					let text = document.createTextNode(str);
+					td.appendChild(text);
+					tr.appendChild(td);
+				}
+				table.appendChild(tr);
+			}
+			document.getElementById('show').append(table);
+		};
+		
+	</script>
+</body>
+</html>

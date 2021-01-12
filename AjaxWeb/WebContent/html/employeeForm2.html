@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html/employeeForm2.html</title>
+<script src="showPage2.js"></script>
+</head>
+<body>
+	<table>
+		<input type='text' id='eid' name='eid'>
+		<tr>
+			<td>firstName</td>
+			<td><input type='text' id='fName' name='fName' value='kildong'></td>
+		</tr>
+		<tr>
+			<td>lastName</td>
+			<td><input type='text' id='lName' name='lName' value='Hong'></td>
+		</tr>
+		<tr>
+			<td>email</td>
+			<td><input type='text' id='email' name='email' value='Khong'></td>
+		</tr>
+		<tr>
+			<td>jobId</td>
+			<td><input type='text' id='jobId' name='jobId' value='IT_DEV'></td>
+		</tr>
+		<tr align="center">
+			<td><button id='btn' onclick='saveBtn()'>저장</button></td>
+			<td><button id='btn2' onclick='update()'>수정</button></td>
+		</tr>
+	</table>
+	<div id="show"></div>
+	<script>
+		//Id값에 해당하는 value 가져와서 변수에 담음
+		function saveBtn() {
+			console.log(this);
+			let fName = document.getElementById('fName').value;
+			let lName = document.getElementById('lName').value;
+			let email = document.getElementById('email').value;
+			let jobId = document.getElementById('jobId').value;
+			//url에 PutEmpServlet에 addEmp 실행
+			let url = '../addEmp?fName=' + fName + '&lName=' + lName
+					+ '&email=' + email + '&jobId=' + jobId;
+			//XML 0~4 실행
+			let saveReq = new XMLHttpRequest();
+			saveReq.open('get', url);
+			saveReq.send(url);
+			saveReq.onload = function() {
+				console.log(saveReq.responseXML);//값 확인
+				let doc = saveReq.responseXML;
+				let result = doc.getElementsByTagName("result"); //배열처럼 result의 하위요소 전부 가져옴
+				console.log(result[0].childNodes);
+				//화면구성. (저장버튼 누를 시의 상황) tr,td*5(button 포함)=>tbl.append(tr);
+				let trTag = document.createElement('tr');
+				//버튼제외 값을 추가
+				for (let i = 0; i < result[0].childNodes.length; i++) {
+					let tdTag = document.createElement('td');
+					let val = result[0].childNodes[i].firstChild.nodeValue; //childNodes는 인덱스활용하면 좋음+firstChild로 name+value가져오고 nodeValue로 값만
+					let tNode = document.createTextNode(val);
+
+					tdTag.append(tNode);
+					trTag.append(tdTag);
+				}
+				//버튼추가+삭제기능
+				addBtn(trTag, delFunc);
+				//table에 tr붙임
+				document.getElementById('tbl').appendChild(trTag);
+			}
+		} //end of saveBtn
+		//수정버튼
+		function update() {
+			let fName = document.getElementById('fName').value;
+			let lName = document.getElementById('lName').value;
+			let email = document.getElementById('email').value;
+			let jobId = document.getElementById('jobId').value;
+			let empId = document.getElementById('eid').value;
+
+			let url = 'fName=' + fName + '&lName=' + lName + '&email=' + email
+					+ '&jobId=' + jobId + '&empId=' + empId;
+			let updateReq = new XMLHttpRequest();
+			updateReq.open('post', '../updateServlet');
+			updateReq.setRequestHeader("Content-type",
+					"application/x-www-form-urlencoded");
+			updateReq.send(url);
+			updateReq.onload = function() {
+				console.log(updateReq.responseXML);//값 확인
+				let doc = updateReq.responseXML;
+				let result = doc.getElementsByTagName("result");
+				let eid= result[0].childNodes[0].firstChild.nodeValue;
+				let tr = document.getElementById('emp_'+eid);  
+				console.log(tr.childNodes[0].firstChild.nodeValue);
+			}
+		} //end of update	
+		//XML 0~4 실행
+		let xhttp = new XMLHttpRequest();
+		xhttp.open('get', '../Home'); //get방식으로 HomeServlet에 /Home실행
+		xhttp.send();
+		xhttp.onload = showPage2; //callback function
+	</script>
+</body>
+</html>
