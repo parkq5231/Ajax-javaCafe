@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(function() {
+		$.ajax({
+			url : 'getEmpList',
+			type : 'get',
+			dataType : 'json',
+			success : function(result) {
+				//console.log(result);
+				let data = result;
+				let firstNames = $(data).map(function(i, o) {
+					//map은 새로운 배열을 만들어줌 그 값을 변수에 담았음
+					return o.firstName;
+				}).get();
+				console.log(firstNames);
+				let grepNames= $.grep(firstNames, function(o, i) {
+						//기본문장:.grep(array,function(){}[,invert]);
+						//return에 해당하는 값만
+						//false가 기본 옵션이라 true하면 반대값을 가져옴
+					return o.length > 7;
+				}, true);
+				console.log(grepNames);
+			},
+			error : function(result) {
+				console.log(result)
+			}
+		});
+
+	});
+</script>
+</head>
+<body>
+</body>
+</html>
