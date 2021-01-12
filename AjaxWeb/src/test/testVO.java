@@ -33,9 +33,7 @@ public class testVO {
 	//
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	//
-}
+}//end of class
 

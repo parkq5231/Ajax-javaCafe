@@ -6,7 +6,7 @@ function showPage3() {
 	let doc = xml.responseXML;
 	console.log(doc);
 
-	let data = doc.getElementsByTagName('result');
+	let data = doc.getElementsByTagName('record');
 	console.log(data);
 
 	let tableTag = document.createElement('table');
