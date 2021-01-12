@@ -85,7 +85,7 @@ function showContent(result) {
     $('#show').append(table);
 }
 function trToInputFunc() {
-    console.log($(this).children().eq(0).html())
+    console.log($(this).children().eq(3).html())
     $('#id').val($(this).children().eq(0).html());
     $('#first_name').val($(this).children().eq(1).html());
     $('#last_name').val($(this).children().eq(2).html());
