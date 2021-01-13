@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>google_chart.html</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript"> //script의 타입은 기본이 이거임
+	
+	$.ajax({
+		url:'../getMembersByDept',
+		dataType:'json',
+		success:chartCallBackFunc,
+		error:function(reject){console.log("에러: " + reject)}
+		});
+	
+	  function chartCallBackFunc(result){//이 Func을 만든이유 실행순서때문에
+		  console.log(result);
+			let data = result;
+			let outAry = [];	//바깥쪽 배열
+			let titleAry=['Task', 'Hours per Day'];
+			outAry.push(titleAry);
+			for (val of data){
+			let inAry = [];		//안쪽 배열 //loop 실행마다 배열생성
+				for (field in val){//field가 계속 바뀌기 때문에 loop 사용
+					console.log(field , val[field]);//field와 value
+					inAry.push(field);
+					inAry.push(val[field]);//둘을 한꺼번에 ,이용하여 사용할 순 없을까
+				}
+				outAry.push(inAry);
+			}
+			//위아래 나뉘어 있던 걸 chartCallBackFunc안에 합친것
+			//이유: 아래꺼부터 실행되기 때문에 실행순서를 바꿔주려한것
+			console.log(outAry);
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(outAry);
+        var options = {
+          title: 'My Daily Activities'
+        };
+        
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));//정확한 id값이 있어야 document에 차트가 그려짐
+        chart.draw(data, options);
+     	 }
+	  }
+    </script>
+</head>
+<body>
+	<div id="piechart" style="width: 900px; height: 500px;"></div>	
+</body>
+</html>

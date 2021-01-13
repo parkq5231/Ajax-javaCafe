@@ -6,10 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmpDAO {
 	Connection conn = null;
+
 	public EmpDAO() {
 		try {
 			String user = "hr";
@@ -27,10 +30,112 @@ public class EmpDAO {
 			e.printStackTrace();
 		}
 	}// end of 생성자.
+
+	// insert schedule
+	public void insertschedule(Schedule sch) {
+		String sql = "insert into calendar values(?,?,?,?)";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);// parameter에 값 넣어줌
+			psmt.setString(1, sch.getTitle());// 1번째 물음표에 sch의 title항목을 넣겠다는 의미
+			psmt.setString(2, sch.getStartDate());
+			psmt.setString(3, sch.getEndDate());
+			psmt.setString(4, sch.getUrl());
+			int r =psmt.executeUpdate();
+			System.out.println(r+"건이 업데이트됨.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { 
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}//end of insertSchedule
+	
+	// schedule
+	public List<Schedule> getScheduleList() {// void타입
+		String sql = "select * from calendar order by 1";
+		List<Schedule> list = new ArrayList<>();
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				Schedule sch = new Schedule();
+				sch.setTitle(rs.getString("title"));
+				sch.setStartDate(rs.getString("start_date"));
+				sch.setEndDate(rs.getString("end_date"));
+				sch.setUrl(rs.getString("url"));
+				list.add(sch);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	// 부서이름과 숫자 나오는 메소드
+	public Map<String, Integer> getMemberByDept() {
+		String sql = "select department_name ,count(*) " + "from employees e , departments d "
+				+ "where e.department_id = d.department_id " + "group by department_name";
+		Map<String, Integer> map = new HashMap<String, Integer>();// 할때마다 선언하게 하지 않기 위해 위로 뺌
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				map.put(rs.getString(1), rs.getInt(2));// key value순서
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return map;
+	}
+
+	// 특정 컬럼 가져오는 메소드
+	public List<EmployeeVO> getSelectList() {
+		String sql = "select employee_id,first_name,last_name,email,hire_date,salary " + "from employees";
+		List<EmployeeVO> list = new ArrayList<EmployeeVO>();
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				EmployeeVO vo = new EmployeeVO();
+				vo.setEmployeeId(rs.getInt("employee_id"));
+				vo.setFirstName(rs.getString("first_name"));
+				vo.setLastName(rs.getString("last_name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setHireDate(rs.getString("hire_date"));
+				vo.setSalary(rs.getInt("salary"));
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 	// update방식
 	public EmployeeVO updateEmp(EmployeeVO vo) { // EmployeeVO타입의 vo매개변수
-		String sql1 = " update emp_temp " + "set first_name=?,last_name=?,email=?,job_id=? " +
-						"where employee_id = ?";
+		String sql1 = " update emp_temp " + "set first_name=?,last_name=?,email=?,job_id=? " + "where employee_id = ?";
 		int r = 0;
 		try {
 			PreparedStatement ppst = conn.prepareStatement(sql1);
@@ -47,12 +152,12 @@ public class EmpDAO {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return vo;
 	}
+
 	// 추가 method
 	public EmployeeVO insertEmp(EmployeeVO vo) { // EmployeeVO타입의 vo매개변수
 		String sql1 = "select employees_seq.nextval from dual"; // seq번호 가져옴

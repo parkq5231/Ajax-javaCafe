@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $.ajax({
+    	url:'../exampleServlet',
+    	dataType:'json',
+    	success:function(result){
+    		console.log(result);
+    		let data = result;
+    		let outAry=[];
+    		let titleAry=[
+    			{ title: "empId" },
+                { title: "firstName" },
+                { title: "lastName" },
+                { title: "email" },
+                { title: "hireDate" },
+                { title: "salary" }];    		
+           outAry.push(titleAry);
+           for (val of data){
+			let inAry=[];
+			for(field in val){
+				inAry.push(field,val[field]);
+				}
+			outAry.push(inAry);
+           }
+    	},
+    	error:function(reject){console.log(reject)}
+    	})
+    </script>
+    
+</head>
+<body>
+	<div id = 'chart' ></div>
+</body>
+</html>
