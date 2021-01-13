@@ -1,3 +1,4 @@
+//scheduleVO
 package common;
 
 public class Schedule {

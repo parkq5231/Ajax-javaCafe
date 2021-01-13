@@ -54,7 +54,8 @@ public class EmpDAO {
 		}
 	}//end of insertSchedule
 	
-	// schedule
+	// schedule DAO
+	//calendar table 생성하고 나서 해야함 (title/start_date/end_date/url)순
 	public List<Schedule> getScheduleList() {// void타입
 		String sql = "select * from calendar order by 1";
 		List<Schedule> list = new ArrayList<>();
@@ -81,7 +82,8 @@ public class EmpDAO {
 		return list;
 	}
 
-	// 부서이름과 숫자 나오는 메소드
+	// 부서이름과 숫자 나오는 메소드 chart할 때사용했음
+	//Chart DAO
 	public Map<String, Integer> getMemberByDept() {
 		String sql = "select department_name ,count(*) " + "from employees e , departments d "
 				+ "where e.department_id = d.department_id " + "group by department_name";
