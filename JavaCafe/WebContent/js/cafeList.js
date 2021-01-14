@@ -23,7 +23,8 @@ function showContents(result)  {//success의 성공한 결과값을 매개값으
 	// console.log(val.item_no,val.item,val.price);
 	let elem_1, elem_2, elem_3;
 	//첫번째 자식요소
-	elem_1 = $("<a/>").attr('href', val.link);
+	//attr 수정한곳
+	elem_1 = $("<a/>").attr('href','item.jsp?itemNo='+val.item_no);
 	let e1_img = $('<img/>').attr('src', '../images/'+val.image).attr('alt', val.alt);
 
 	e1_img.addClass("card-img-top");
@@ -31,7 +32,7 @@ function showContents(result)  {//success의 성공한 결과값을 매개값으
 	//두번째 자식요소
 	elem_2 = $("<div/>").addClass("card-body");
 	let e2_h4 =  $('<h4/>').addClass('card-title');
-	let e2_a = $('<a/>').attr('href', val.link).html(val.item);	//DB의 Item가져옴
+	let e2_a = $('<a/>').attr('href', 'item.jsp?itemNo='+val.item_no).html(val.item);	//DB의 Item가져옴
 	//원화
 	let krw_price=new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW'}).format(val.price);
 	
