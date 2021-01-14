@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id='show'></div>
+	<script>
+		let xml = new XMLHttpRequest();
+		xml.open('get', 'employees.xml');
+		xml.send();
+		xml.onload = function() {
+			console.log(xml.response);
+			let doc = xml.responseXML;
+			let record = doc.getElementsByTagName("record");//TagName == <record>이걸 의미함 
+			console.log(record);
+			let ulTag = document.createElement('ul');
+			for (let k = 0; k < record.length; k++) {
+				for (let i = 0; i < record[0].childNodes.length; i++) {
+					let liTag = document.createElement('li');
+					if (i != 2 && i != 3 && i != 4) {
+						//record만 10번 돌리면 되는데 k로 ul쪽에서 돌리면서 li안에는 내부내용을 돌린다
+						//세로로 늘어지는게 즉, k=0일때 i값이 0~5까지 늘어남 k=0~9 i=0~5 대신 k값이 1개 할당될 때 i값0~5까지 다 돌고 나서 loop되는거(조건문이 끝날 때 까지)  
+						let val = record[k].childNodes[i].firstChild.nodeValue;
+						let tNode = document.createTextNode(val);
+						console.log(val);
+
+						liTag.append(tNode);
+						ulTag.append(liTag);
+					} //end of if
+				} //end of for child
+			} //end of for k
+			document.getElementById('show').append(ulTag);
+		} //end of function
+	</script>
+</body>
+</html>

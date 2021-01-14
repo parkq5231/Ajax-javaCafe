@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id='show'></div>
+	<script>
+		let xml = new XMLHttpRequest();
+		xml.open('get', 'members.json');
+		xml.send();
+		xml.onload = function() {
+			let data = xml.response;
+			//console.log(data);
+			let obj=JSON.parse(data);
+			console.log(obj);
+			let table =document.createElement('table');
+			table.setAttribute('border','1');
+			for(val of obj){
+				let tr=document.createElement('tr');
+				for(field in val){
+					let td= document.createElement('td');
+					td.innerHTML = val[field];
+				tr.append(td);
+				}
+			table.append(tr);
+			}
+			document.getElementById('show').append(table);
+		};//end of function
+	</script>
+</body>
+</html>
