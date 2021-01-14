@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+ //1.전송처리.
+ 	$(function (){
+ 		$.ajax({
+ 		url:'../FileUpload',
+ 		success:function(result){console.log(result)},
+ 		error:function(reject){console.log(reject)}
+ 		});
+ 		
+ 	})
+ //2.파일첨부.
+ function file_open(){
+	 window.open('upload.jsp','upload','width=300 height=200 left=300 top=30');
+	 //window.open은 작은 창을 새로 하나 여는 것
+ }
+</script>
+</head>
+<body>
+	
+<form action="../PostProductServlet" id='frm' method='post'>	<!-- parameter가 많아서 post -->   <!-- action은 servlet연결? -->
+<table border='1'>
+	<!-- name값이 parameter가 될거 -->
+	<tr>
+	<td>Item No</td>
+	<td><input type="text" name="itemNo" value="bean_007"></td>
+	</tr>
+	
+	<tr>
+	<td>Item</td>
+	<td><input type="text" name="item" value="브라질 원두"></td>
+	</tr>
+	
+	<tr>
+	<td>Category</td>
+	<td><input type="text" name="category" value="bean"></td>
+	</tr>
+	
+	<tr>
+	<td>Price</td>
+	<td><input type="text" name="price" value="3,500"></td>
+	</tr>
+	
+	<tr>
+	<td>Content</td>
+	<td><input type="text" name="content" value="브라질 산투스 원두입니다."></td>
+	</tr>
+	
+	<tr>
+	<td>LikeIt</td>
+	<td><input type="text" name="likeIt" value="4"></td>
+	</tr>
+	
+	<tr>
+	<td>Image</td>
+	<td><input type="text" name="image">
+	<input type="button" value="파일첨부" onclick="file_open()"></td>
+	</tr>
+	
+	<!-- submit버튼 -->
+	<!-- form안의 버튼은 자동으로 submit됨 -->
+	<tr> 
+	<td colspan='2'><button id='save'>저장</button><button id='esc'>취소</button></td>
+	</tr>
+	
+</table>
+</form>
+
+</body>
+</html>

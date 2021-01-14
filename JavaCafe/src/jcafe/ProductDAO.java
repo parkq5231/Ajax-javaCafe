@@ -28,16 +28,43 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 	}// productDAO
-
+	// insert product
+	public void insertProduct(ProductVO vo) {
+		String sql = "insert into product values (?,?,?,?,?,?,?,?,?)";
+		int r=0;
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getItemNo());
+			psmt.setString(2, vo.getItem());
+			psmt.setString(3, vo.getCategory());
+			psmt.setInt(4, vo.getPrice());
+			psmt.setString(5, vo.getLink());
+			psmt.setString(6, vo.getContent());
+			psmt.setInt(7, vo.getLikeIt());
+			psmt.setString(8, vo.getAlt());
+			psmt.setString(9, vo.getImage());
+			r = psmt.executeUpdate();
+			System.out.println(r + "건이 업데이트됨.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	// showlist product
 	public List<ProductVO> getProductList() {
 		String sql = "select * from product order by 1 ";
-		List<ProductVO>list = new ArrayList<ProductVO>();
+		List<ProductVO> list = new ArrayList<ProductVO>();
 		try {
 			PreparedStatement psmt = conn.prepareStatement(sql);
 			ResultSet rs = psmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				ProductVO vo = new ProductVO();
-				//rs에 데이터가 담겨있음
+				// rs에 데이터가 담겨있음
 				vo.setItemNo(rs.getString("item_no"));
 				vo.setItem(rs.getString("item"));
 				vo.setCategory(rs.getString("category"));
@@ -47,7 +74,7 @@ public class ProductDAO {
 				vo.setLikeIt(rs.getInt("like_it"));
 				vo.setAlt(rs.getString("alt"));
 				vo.setImage(rs.getString("image"));
-				
+
 				list.add(vo);
 			}
 		} catch (SQLException e) {
